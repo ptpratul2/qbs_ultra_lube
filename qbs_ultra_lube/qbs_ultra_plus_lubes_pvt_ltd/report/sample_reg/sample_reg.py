@@ -1,5 +1,7 @@
 # Copyright (c) 2025, Astha and contributors
 # For license information, please see license.txt
+
+
 import frappe
 from frappe import _
 import json
@@ -73,14 +75,12 @@ def get_conditions(filters):
         conditions.append("type_of_sample = %(type_of_sample)s")
         values["type_of_sample"] = filters.get("type_of_sample")
 
-    # From Date filter
     if filters.get("from_date"):
-        conditions.append("date_of_sample__receipt >= %(from_date)s")
+        conditions.append("DATE(date_of_sample__receipt) >= %(from_date)s")
         values["from_date"] = filters.get("from_date")
-
-    # To Date filter
+        
     if filters.get("to_date"):
-        conditions.append("date_of_sample__receipt <= %(to_date)s")
+        conditions.append("DATE(date_of_sample__receipt) <= %(to_date)s")
         values["to_date"] = filters.get("to_date")
 
     return conditions, values
@@ -108,54 +108,46 @@ def get_data(conditions, values):
 def get_chart_data(data, filters=None):
     if not data:
         return None
+    data = [row for row in data if row.get("customer_name") != "Total"]
+    customers = sorted(
+        list(set(d['customer_name'] for d in data if d.get('customer_name')))
+    )
+    sample_types = sorted(
+        list(set(d['type_of_sample'] for d in data if d.get('type_of_sample')))
+    )
 
-    filters = filters or {}
-    customer_filter = filters.get("customer")
+    pivot_data = {}
+    for row in data:
+        customer = row['customer_name']
+        sample_type = row['type_of_sample']
 
-    if customer_filter:
-        labels = [row['type_of_sample'] for row in data]
-        datasets = [
-            { "name": "YTD", "values": [row['created_this_year'] for row in data] },
-            { "name": "MTD", "values": [row['created_this_month'] for row in data] }
-        ]
-        chart_type = "pie"
-        stacked = 0
+        if not customer or not sample_type:
+            continue
 
-    else:
-        customers = sorted(list(set(d['customer_name'] for d in data if d.get('customer_name'))))
-        sample_types = sorted(list(set(d['type_of_sample'] for d in data if d.get('type_of_sample'))))
+        if customer not in pivot_data:
+            pivot_data[customer] = {}
 
-        labels = customers
-        pivot_data = {}
+        pivot_data[customer][sample_type] = row.get('created_this_year', 0)
 
-        for row in data:
-            customer = row['customer_name']
-            sample_type = row['type_of_sample']
-
-            if not customer or not sample_type:
-                continue
-
-            if customer not in pivot_data:
-                pivot_data[customer] = {}
-
-            pivot_data[customer][sample_type] = row.get('created_this_year', 0)
-
-        datasets = []
-        for st in sample_types:
-            values = [pivot_data.get(cust, {}).get(st, 0) for cust in customers]
-            datasets.append({"name": st, "values": values})
-
-        chart_type = "bar"
-        stacked = 1
+    datasets = []
+    for st in sample_types:
+        values = [pivot_data.get(cust, {}).get(st, 0) for cust in customers]
+        datasets.append({
+            "name": st,
+            "values": values
+        })
 
     return {
         "data": {
-            "labels": labels,
+            "labels": customers,
             "datasets": datasets
         },
-        "type": chart_type,
-        "stacked": stacked,
+        "type": "bar",
+        "stacked": 1,
         "height": 900
     }
+
+
+
 
 

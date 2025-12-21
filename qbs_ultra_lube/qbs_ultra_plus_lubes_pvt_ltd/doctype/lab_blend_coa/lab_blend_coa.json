@@ -13,7 +13,8 @@
   "homogenization_time",
   "temprature_of_lab_blend",
   "observation_if_any",
-  "lab_blend_done_by"
+  "lab_blend_done_by",
+  "date_of_lab_blend"
  ],
  "fields": [
   {
@@ -48,7 +49,7 @@
   {
    "fieldname": "temprature_of_lab_blend",
    "fieldtype": "Data",
-   "label": "Temprature of Lab Blend"
+   "label": "Temperature of Lab Blend"
   },
   {
    "fieldname": "observation_if_any",
@@ -65,12 +66,17 @@
    "fieldtype": "Link",
    "label": "Raw Data Ref.",
    "options": "Raw Data Sample"
+  },
+  {
+   "fieldname": "date_of_lab_blend",
+   "fieldtype": "Date",
+   "label": "Date of Lab Blend"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-12-17 12:00:58.442369",
+ "modified": "2025-12-18 12:05:32.660230",
  "modified_by": "Administrator",
  "module": "QBS Ultra Plus Lubes Pvt Ltd",
  "name": "Lab Blend COA",

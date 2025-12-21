@@ -21,6 +21,7 @@
   "name_of_customer",
   "batch_no",
   "tanker_no_vehicle_nobk_no__tank_nofilling_line_no",
+  "fill_note_no",
   "sample_received_by",
   "sample_status",
   "date_of_analysis_completed",
@@ -29,7 +30,13 @@
   "sample_disposed_by",
   "amended_from",
   "frequency",
-  "is_reanalysis"
+  "is_reanalysis",
+  "section_break_fnzg",
+  "ch_no",
+  "unloaded_in_ft_no",
+  "column_break_zqho",
+  "chbatch_qty",
+  "previous_material_in_ft"
  ],
  "fields": [
   {
@@ -128,7 +135,8 @@
   {
    "fieldname": "date_of_analysis_completed",
    "fieldtype": "Datetime",
-   "label": "Date of Analysis Completed"
+   "label": "Date of Analysis Completed",
+   "read_only_depends_on": "eval:doc.type_of_sample!==\"Receipt - Packing Material\";"
   },
   {
    "fieldname": "sample_status",
@@ -136,7 +144,8 @@
    "in_filter": 1,
    "in_global_search": 1,
    "label": "Sample Status",
-   "options": "\nApproved\nReject"
+   "options": "\nApproved\nReject",
+   "read_only_depends_on": "eval: doc.type_of_sample!==\"Receipt - Packing Material\";"
   },
   {
    "fieldname": "sample_retention_period",
@@ -190,13 +199,56 @@
    "fieldtype": "Check",
    "hidden": 1,
    "label": "Is Reanalysis"
+  },
+  {
+   "fieldname": "fill_note_no",
+   "fieldtype": "Data",
+   "label": "Fill Note No.",
+   "length": 40,
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_fnzg",
+   "fieldtype": "Section Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "ch_no",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "CH. NO."
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "unloaded_in_ft_no",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "UNLOADED IN FT. NO."
+  },
+  {
+   "fieldname": "column_break_zqho",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "chbatch_qty",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "CH./BATCH QTY."
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "previous_material_in_ft",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "PREVIOUS MATERIAL (IN FT)"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-12-17 17:38:35.146791",
+ "modified": "2025-12-20 10:42:58.363889",
  "modified_by": "Administrator",
  "module": "QBS Ultra Plus Lubes Pvt Ltd",
  "name": "Sample Registration",

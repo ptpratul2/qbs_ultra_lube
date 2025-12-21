@@ -148,7 +148,7 @@ mapping_parameters = {
 	"CCS @ -25 (ASTM D5293)": "ccs_2",
 	"CCS @ -30 (ASTM D5293)": "ccs3",
 	"CCS @ -35 (ASTM D5293)": "ccs_9",
-	"Demulsibility (IP 19)": "demulsibility_astm_d1401",
+	"Demulsibility (IP 19)": "demulsibility_ip_19_sec",
 	" Water Content (ASTM D6304) (Nearest 1 ppm)": "water_content_astm_d6304",
 	"HTHS @150°C (ASTM D4683)": "hths",
 	"Noack Volatality (ASTM D5800)": "noack_volatality",

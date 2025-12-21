@@ -10,15 +10,12 @@ class SampleParameters(Document):
 
 @frappe.whitelist()
 def set_customer_as_per_item(start, page_len, code):
-    tup = frappe.db.sql("""
+    result = frappe.db.sql("""
         SELECT mc.customer_name
         FROM `tabMulti Customer` mc
-        INNER JOIN `tabSample Parameters` sp
-            ON mc.parent = sp.item_code
-        WHERE sp.item_code = %s
-        LIMIT %s OFFSET %s
-    """, (code, int(page_len), int(start)))
-
-    if len(tup) == 1:
-        return tup[0][0]
+        WHERE mc.parent = %s
+        ORDER BY mc.idx, mc.name
+    """, (code,), as_dict=True)
+    if len(result) == 1 and result[0].get("customer_name"):
+        return result[0]["customer_name"]
     return ""

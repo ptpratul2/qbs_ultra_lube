@@ -157,6 +157,7 @@ def create_duplicate(docname):
     new_doc.sample_received_by = frappe.session.user_fullname
     new_doc.date_of_analysis_started = frappe.utils.now_datetime()
     new_doc.date_of_sample__receipt = frappe.utils.now_datetime()
+    new_doc.is_reanalysis=1
     new_doc.custom_generated_name = final_new_name
     new_doc.insert(ignore_permissions=True)
     frappe.db.commit()

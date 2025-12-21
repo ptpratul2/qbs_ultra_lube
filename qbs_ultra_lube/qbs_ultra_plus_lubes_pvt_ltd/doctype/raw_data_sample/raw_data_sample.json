@@ -51,6 +51,7 @@
   "filled_date",
   "date_of_expiry",
   "coa_batch_no",
+  "product_name",
   "iso_tab",
   "iso_4406__nas_1638_section",
   "iso_template_name",
@@ -2411,13 +2412,20 @@
    "hidden": 1,
    "label": "Material Code",
    "length": 20
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "product_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Product Name"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-12-17 11:48:28.011904",
+ "modified": "2025-12-19 09:40:10.650752",
  "modified_by": "Administrator",
  "module": "QBS Ultra Plus Lubes Pvt Ltd",
  "name": "Raw Data Sample",
