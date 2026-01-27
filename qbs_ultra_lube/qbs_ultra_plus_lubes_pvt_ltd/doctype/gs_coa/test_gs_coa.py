@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestGSCustomer(FrappeTestCase):
+class TestGSCOA(FrappeTestCase):
 	pass

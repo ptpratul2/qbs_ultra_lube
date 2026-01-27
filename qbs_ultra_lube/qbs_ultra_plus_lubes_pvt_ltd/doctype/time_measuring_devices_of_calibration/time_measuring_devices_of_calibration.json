@@ -23,8 +23,7 @@
   "acceptance_criteria_for_calibration_as_per_astm_method",
   "remark_passfail",
   "frequency_of_internal_verification",
-  "attach_certificate",
-  "active"
+  "attach_certificate"
  ],
  "fields": [
   {
@@ -51,7 +50,7 @@
   {
    "fieldname": "calibration_done_on",
    "fieldtype": "Data",
-   "label": "Calibration Done On"
+   "label": "Calibration Done On (DD.MM.YYYY/ NA)"
   },
   {
    "fieldname": "applicable_astm_method_no",
@@ -91,7 +90,7 @@
   {
    "fieldname": "calibration_due_on",
    "fieldtype": "Data",
-   "label": "Calibration Due On"
+   "label": "Calibration Due On (DD.MM.YYYY/ NA)"
   },
   {
    "fieldname": "acceptance_criteria_for_calibration_as_per_astm_method",
@@ -113,12 +112,6 @@
    "label": "Attach Certificate"
   },
   {
-   "default": "1",
-   "fieldname": "active",
-   "fieldtype": "Check",
-   "label": "Active"
-  },
-  {
    "fieldname": "frequency_of_internal_verification",
    "fieldtype": "Data",
    "label": "Frequency Of Internal Verification"
@@ -128,7 +121,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-12-17 14:11:02.589977",
+ "modified": "2025-12-31 11:13:21.029315",
  "modified_by": "Administrator",
  "module": "QBS Ultra Plus Lubes Pvt Ltd",
  "name": "Time Measuring Devices Of Calibration",

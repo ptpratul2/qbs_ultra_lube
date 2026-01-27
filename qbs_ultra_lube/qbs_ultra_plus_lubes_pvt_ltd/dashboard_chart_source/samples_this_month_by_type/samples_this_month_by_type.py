@@ -6,6 +6,13 @@ from frappe import _
 from frappe.utils import today, get_first_day, get_last_day, getdate
 from frappe.utils.dashboard import cache_source
 
+# Import color map from the other dashboard chart source
+from qbs_ultra_lube.qbs_ultra_plus_lubes_pvt_ltd.dashboard_chart_source.total_samples_per_customer.total_samples_per_customer import (
+	SAMPLE_TYPE_COLORS,
+	normalize_sample_type,
+	get_sample_type_color
+)
+
 
 @frappe.whitelist()
 @cache_source
@@ -21,124 +28,77 @@ def get(
 	heatmap_year=None,
 ):
 	"""
-	Pie Chart - This Month's Samples by Type
-	Shows distribution of sample types for selected month and year
-	Filterable by month, year, and customer
+	Bar Chart - This Month's Samples by Type
+	Shows distribution of sample types for selected date range
+	Filterable by date range, customer, and sample type
 	"""
 	filters = frappe.parse_json(filters) or {}
 	
-	# Get selected month and year from filters, default to current month
-	selected_month = filters.get("selected_month")
-	selected_year = filters.get("selected_year")
+	# Get date range from filters or default to current month
+	first_day = filters.get("from_date") or from_date or get_first_day(today())
+	last_day = filters.get("to_date") or to_date or get_last_day(today())
 	
-	# If month/year not provided, use current month
-	if not selected_month or not selected_year:
-		first_day = get_first_day(today())
-		last_day = get_last_day(today())
-	else:
-		# Convert month name to number
-		month_map = {
-			"January": 1, "February": 2, "March": 3, "April": 4,
-			"May": 5, "June": 6, "July": 7, "August": 8,
-			"September": 9, "October": 10, "November": 11, "December": 12
-		}
-		month_num = month_map.get(selected_month, getdate(today()).month)
-		year_num = int(selected_year)
-		
-		# Create first and last day of selected month
-		from frappe.utils import get_first_day as get_month_start, get_last_day as get_month_end
-		date_str = f"{year_num}-{month_num:02d}-01"
-		first_day = get_month_start(date_str)
-		last_day = get_month_end(date_str)
+	# Build WHERE conditions and values for parameterized query
+	conditions = [
+		"docstatus < 2",
+		"type_of_sample IS NOT NULL",
+		"DATE(date_of_sample__receipt) BETWEEN %s AND %s"
+	]
 	
-	# Customer filter (optional)
-	customer_condition = ""
+	values = [first_day, last_day]
+	
+	# Add customer filter if provided
 	if filters.get("name_of_customer"):
-		customer_name = filters.get('name_of_customer').replace("'", "''")
-		customer_condition = f"AND name_of_customer = '{customer_name}'"
+		conditions.append("name_of_customer = %s")
+		values.append(filters.get("name_of_customer"))
 	
-	# If customer filter is applied, group by customer; otherwise aggregate all customers
-	if filters.get("name_of_customer"):
-		query = f"""
-			SELECT 
-				type_of_sample,
-				name_of_customer,
-				COUNT(*) as count
-			FROM `tabSample Registration`
-			WHERE docstatus < 2
-			AND DATE(date_of_sample__receipt) BETWEEN '{first_day}' AND '{last_day}'
-			AND type_of_sample IS NOT NULL
-			{customer_condition}
-			GROUP BY type_of_sample, name_of_customer
-			ORDER BY count DESC
-			LIMIT 10
-		"""
-	else:
-		# Aggregate by type_of_sample only (sum across all customers)
-		query = f"""
-			SELECT 
-				type_of_sample,
-				SUM(count) as count
-			FROM (
-				SELECT 
-					type_of_sample,
-					name_of_customer,
-					COUNT(*) as count
-				FROM `tabSample Registration`
-				WHERE docstatus < 2
-				AND DATE(date_of_sample__receipt) BETWEEN '{first_day}' AND '{last_day}'
-				AND type_of_sample IS NOT NULL
-				GROUP BY type_of_sample, name_of_customer
-			) as subquery
-			GROUP BY type_of_sample
-			ORDER BY count DESC
-			LIMIT 10
-		"""
+	# Add type_of_sample filter if provided
+	if filters.get("type_of_sample"):
+		conditions.append("type_of_sample = %s")
+		values.append(filters.get("type_of_sample"))
 	
-	data = frappe.db.sql(query, as_dict=True)
+	where_clause = " AND ".join(conditions)
+	
+	# Query to get sample counts by type
+	query = f"""
+		SELECT 
+			type_of_sample,
+			COUNT(*) as count
+		FROM `tabSample Registration`
+		WHERE {where_clause}
+		GROUP BY type_of_sample
+		ORDER BY count DESC
+	"""
+	
+	data = frappe.db.sql(query, values=tuple(values), as_dict=True)
 	
 	if not data:
 		return {
 			"labels": [_("No Data")],
 			"datasets": [{"name": _("Count"), "values": [0]}],
-			"type": "pie",
-			"customer_name": filters.get("name_of_customer") or "All Customers"
+			"type": "bar"
 		}
 	
-	labels = [_(row.type_of_sample) for row in data]
-	values = [row.count for row in data]
+	# Build labels, values, and colors
+	labels = []
+	chart_values = []
+	colors = []
 	
-	# Get customer name from filters
-	customer_name = filters.get("name_of_customer") or "All Customers"
-	
-	# Create custom HTML banner for customer name
-	custom_html = f"""
-	<div class='customer-name-banner' style='
-		background: linear-gradient(135deg, #11998e 0%, #38ef7ddd 100%);
-		color: white;
-		padding: 12px 20px;
-		margin: -10px -10px 15px -10px;
-		border-radius: 8px;
-		font-weight: 600;
-		font-size: 16px;
-		display: flex;
-		align-items: center;
-		gap: 10px;
-		box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-	'>
-		<span style='font-size: 24px;'>📊</span>
-		<span>Customer: <strong style='font-size: 18px;'>{customer_name}</strong></span>
-	</div>
-	"""
+	for row in data:
+		sample_type = normalize_sample_type(row.type_of_sample)
+		labels.append(_(sample_type))
+		chart_values.append(row.count)
+		colors.append(get_sample_type_color(sample_type))
 	
 	return {
 		"labels": labels,
-		"datasets": [{"name": _("Count"), "values": values}],
-		"type": "pie",
-		"customer_name": customer_name,
-		"custom_options": {
-			"custom_html": custom_html
-		}
+		"datasets": [{
+			"name": _("Sample Count"),
+			"values": chart_values,
+			"chartType": "bar"
+		}],
+		"colors": colors,
+		"type": "bar"
 	}
 
 

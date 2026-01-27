@@ -9,7 +9,8 @@
  "field_order": [
   "viscometer_id",
   "viscometer_constant",
-  "is_active"
+  "is_active",
+  "comment"
  ],
  "fields": [
   {
@@ -28,12 +29,17 @@
    "fieldname": "is_active",
    "fieldtype": "Check",
    "label": "Is Active"
+  },
+  {
+   "fieldname": "comment",
+   "fieldtype": "Small Text",
+   "label": "Comment"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-12-15 10:19:37.136638",
+ "modified": "2026-01-06 11:51:08.098566",
  "modified_by": "Administrator",
  "module": "QBS Ultra Plus Lubes Pvt Ltd",
  "name": "Viscometer 40C",

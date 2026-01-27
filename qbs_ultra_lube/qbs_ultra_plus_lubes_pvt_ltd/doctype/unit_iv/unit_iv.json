@@ -14,8 +14,7 @@
   "equipment_id",
   "make",
   "date_of_receipt",
-  "range__accuracy",
-  "active"
+  "range__accuracy"
  ],
  "fields": [
   {
@@ -66,19 +65,13 @@
    "fieldtype": "Link",
    "label": "Company",
    "options": "Company"
-  },
-  {
-   "default": "1",
-   "fieldname": "active",
-   "fieldtype": "Check",
-   "label": "Active"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-12-10 18:31:03.320313",
+ "modified": "2025-12-26 15:03:21.450775",
  "modified_by": "Administrator",
  "module": "QBS Ultra Plus Lubes Pvt Ltd",
  "name": "Unit IV",

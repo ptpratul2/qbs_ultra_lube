@@ -1,7 +1,7 @@
 {
  "chart_name": "This Month's Samples by Type",
  "chart_type": "Custom",
- "custom_options": "{\"type\": \"pie\", \"height\": 300}",
+ "custom_options": "{\"type\": \"bar\", \"height\": 600, \"barOptions\": {\"stacked\": 0, \"spaceRatio\": 0.5}, \"axisOptions\": {\"xIsSeries\": false}}",
  "document_type": "Sample Registration",
  "doctype": "Dashboard Chart",
  "is_public": 1,

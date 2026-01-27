@@ -27,9 +27,12 @@ app_license = "mit"
 # include js, css files in header of desk.html
 # app_include_css = "/assets/qbs_ultra_lube/css/qbs_ultra_lube.css"
 # app_include_js = "/assets/qbs_ultra_lube/js/qbs_ultra_lube.js"
+# app_include_js = [
+# 	"/assets/qbs_ultra_lube/js/thermometer_utils.js?v=1.0.6"
+# ]
 
 # include js, css files in header of web template
-# web_include_css = "/assets/qbs_ultra_lube/css/qbs_ultra_lube.css"
+web_include_css = "/assets/qbs_ultra_lube/css/login.css"
 # web_include_js = "/assets/qbs_ultra_lube/js/qbs_ultra_lube.js"
 
 # include custom scss in every website theme (without file extension ".scss")

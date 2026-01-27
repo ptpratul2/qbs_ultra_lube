@@ -1,44 +1,38 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2025-12-19 13:11:08.817086",
+ "creation": "2025-12-24 11:37:38.017424",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "section_break_nmcw",
-  "sample_registration_number",
-  "remark",
+  "batch_no",
+  "remarks",
   "status",
   "amended_from"
  ],
  "fields": [
   {
-   "fieldname": "section_break_nmcw",
-   "fieldtype": "Section Break"
+   "fieldname": "batch_no",
+   "fieldtype": "Select",
+   "label": "Batch No"
   },
   {
-   "fieldname": "remark",
+   "fieldname": "remarks",
    "fieldtype": "Small Text",
-   "label": "Remark"
-  },
-  {
-   "fieldname": "sample_registration_number",
-   "fieldtype": "Link",
-   "label": "Sample Registration Number",
-   "options": "Sample Registration"
+   "label": "Remarks"
   },
   {
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "\nSelect\nReject"
+   "options": "\nApproved\nReject\nReanalysis"
   },
   {
    "fieldname": "amended_from",
    "fieldtype": "Link",
    "label": "Amended From",
    "no_copy": 1,
-   "options": "GSCustomer",
+   "options": "GS COA",
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
@@ -48,10 +42,10 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-12-20 10:21:06.637413",
+ "modified": "2025-12-24 11:38:58.672129",
  "modified_by": "Administrator",
  "module": "QBS Ultra Plus Lubes Pvt Ltd",
- "name": "GSCustomer",
+ "name": "GS COA",
  "owner": "Administrator",
  "permissions": [
   {
@@ -64,7 +58,6 @@
    "report": 1,
    "role": "System Manager",
    "share": 1,
-   "submit": 1,
    "write": 1
   }
  ],

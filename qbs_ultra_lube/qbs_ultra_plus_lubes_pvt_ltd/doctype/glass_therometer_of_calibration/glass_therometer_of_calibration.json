@@ -23,35 +23,38 @@
   "acceptance_criteria_for_calibration_as_per_astm_method",
   "remark_passfail",
   "frequency_of_internal_verification",
-  "attach_certificate",
-  "active"
+  "attach_certificate"
  ],
  "fields": [
   {
    "fieldname": "company",
    "fieldtype": "Link",
    "label": "Company",
-   "options": "Company"
+   "options": "Company",
+   "read_only_depends_on": "eval:doc.company != null && doc.company != \"\""
   },
   {
    "fieldname": "equipment_id",
    "fieldtype": "Data",
-   "label": "Equipment ID."
+   "label": "Equipment ID.",
+   "read_only_depends_on": "eval:doc.equipment_id != null && doc.equipment_id!= \"\"\r\n"
   },
   {
    "fieldname": "make",
    "fieldtype": "Data",
-   "label": "Make"
+   "label": "Make",
+   "read_only_depends_on": "eval:doc.make != null && doc.make!= \"\""
   },
   {
    "fieldname": "rangeaccuracy",
    "fieldtype": "Data",
-   "label": "Range/Accuracy"
+   "label": "Range/Accuracy",
+   "read_only_depends_on": "eval:doc.rangeaccuracy != null && doc.rangeaccuracy!= \"\""
   },
   {
    "fieldname": "calibration_done_on",
    "fieldtype": "Data",
-   "label": "Calibration Done On"
+   "label": "Calibration Done On (DD.MM.YYYY/ NA)"
   },
   {
    "fieldname": "applicable_astm_method_no",
@@ -71,27 +74,31 @@
   {
    "fieldname": "name_of_equipment",
    "fieldtype": "Data",
-   "label": "Name Of Equipment"
+   "label": "Name Of Equipment",
+   "read_only_depends_on": "eval:doc.name_of_equipment != null && doc.name_of_equipment != \"\"\r\n"
   },
   {
    "fieldname": "location",
    "fieldtype": "Data",
-   "label": "Location"
+   "label": "Location",
+   "read_only_depends_on": "eval:doc.location != null && doc.location!= \"\"\r\n"
   },
   {
    "fieldname": "modelsrnotypeyear_of_make",
    "fieldtype": "Data",
-   "label": "Model/Sr.No./Type/Year Of Make"
+   "label": "Model/Sr.No./Type/Year Of Make",
+   "read_only_depends_on": "eval:doc.modelsrnotypeyear_of_make != null && doc.modelsrnotypeyear_of_make!= \"\"\r\n"
   },
   {
    "fieldname": "frequency_of_calibration",
    "fieldtype": "Data",
-   "label": "Frequency Of Calibration"
+   "label": "Frequency Of Calibration",
+   "read_only_depends_on": "eval:doc.frequency_of_calibration != null && doc.frequency_of_calibration!= \"\"\r\n"
   },
   {
    "fieldname": "calibration_due_on",
    "fieldtype": "Data",
-   "label": "Calibration Due On "
+   "label": "Calibration Due On (DD.MM.YYYY/ NA)"
   },
   {
    "fieldname": "acceptance_criteria_for_calibration_as_per_astm_method",
@@ -101,7 +108,8 @@
   {
    "fieldname": "remark_passfail",
    "fieldtype": "Data",
-   "label": "Remark Pass/Fail"
+   "label": "Remark Pass/Fail",
+   "read_only_depends_on": "eval:doc.remark_passfail != null && doc.remark_passfail!= \"\""
   },
   {
    "fieldname": "frequency_of_internal_verification",
@@ -116,19 +124,13 @@
    "fieldname": "attach_certificate",
    "fieldtype": "Attach",
    "label": "Attach Certificate"
-  },
-  {
-   "default": "1",
-   "fieldname": "active",
-   "fieldtype": "Check",
-   "label": "Active"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-12-17 14:10:42.583367",
+ "modified": "2025-12-31 11:12:39.698868",
  "modified_by": "Administrator",
  "module": "QBS Ultra Plus Lubes Pvt Ltd",
  "name": "Glass Therometer Of Calibration",

@@ -140,7 +140,6 @@
   "magnessium__wt_astm_d5185",
   "silicon__wt_astm_d5185",
   "ph_50__dil__astm_d1287",
-  "ph_d_1287",
   "ph_25c_10__dil_astm_d1287",
   "ph_25c_30__dil__astm_d1287",
   "ph_25c_50__dil__astm_d1287",
@@ -223,7 +222,7 @@
   {
    "fieldname": "water_content_karl_fischer_volumetricastm_d1123_",
    "fieldtype": "Small Text",
-   "label": "Water Content Karl Fischer (volumetric)(ASTM D1123) (%wt)"
+   "label": "Water Content Karl Fischer (ASTM D1123) (volumetric) (%wt)"
   },
   {
    "fieldname": "boiling_point",
@@ -720,11 +719,6 @@
    "label": "pH 50 % Dil.  (ASTM D1287)"
   },
   {
-   "fieldname": "ph_d_1287",
-   "fieldtype": "Small Text",
-   "label": "pH (ASTM D1287)"
-  },
-  {
    "fieldname": "ph_25c_d_1287",
    "fieldtype": "Small Text",
    "label": "pH @ 25C (ASTM D1287)"
@@ -978,7 +972,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-12-12 19:21:44.195399",
+ "modified": "2026-01-19 11:29:40.533789",
  "modified_by": "Administrator",
  "module": "QBS Ultra Plus Lubes Pvt Ltd",
  "name": "Sample Parameters",

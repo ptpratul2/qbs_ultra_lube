@@ -1,5 +1,6 @@
 import frappe
 from frappe.model.document import Document
+from frappe.utils import now, now_datetime;
 import json
 import re
 from frappe.utils import getdate, add_months
@@ -80,10 +81,12 @@ mapping_parameters = {
 	"freezing_point_50_dil": "freezing_point_50_dil_astm_d3321astm_d1177",
 	"ash_astm_d482": "ash_astm_d482",
     "filterability_factor_tms_371": "filterability_factor_tms_371",
+    "NAS (Class)": "nas_1638",
+    "SMS 3010": "sms_3010",
 	"ISO 4406(4 µm/6 µm/14 µm)": "iso_4406",
 	"Average KV@ 100°C (four significant figure)": "average_kv_100c_four_significant_figure",
 	"Average KV@ 40°C (four significant figure)": "average_kv_40c_four_significant_figure",
-	"Viscosity Index (ASTM D2270)": "viscosity_index",
+	# "Viscosity Index (ASTM D2270)": "viscosity_index",
 	"Average Viscosity Blend @ 100°C (four significant figure)": "viscosity1",
 	"KV@ 100°C": "viscosity__100c_astm_d7042",
 	"KV@ 40°C": "viscosity__40c_astm_d7042",
@@ -130,6 +133,8 @@ mapping_parameters = {
 	"Phosphorus": "phosphorus",
 	"Zinc": "zinc",
 	"Titanium": "ti_astm_d4951_",
+    "Silicon": "silicon",
+    "Sulphur": "sulphur_wt_astm_d4951",
     # "Nitrogen": "",
     "Silicon (ASTM D6130)": "silicon_astm_d6130_ppm",
     "Silicate (ASTM D6130)": "silicate_astm_d6130_ppm",
@@ -234,6 +239,17 @@ only_last_row_tables =[
     "reserved_alkalinity_10mg"
 ]
 
+tankerInMap = [
+    "KV@ 100°C",
+    "KV@ 40°C",
+]
+
+processWater = [
+    "pH@25C  (ISO 3696)",
+    "Conductivity @25°C (ISO 3696)",
+    "Total Dissolve Solid  (ISO 3696)",
+]
+
 def calculate_disposal_date(analysis_date, retention_period):
     if not analysis_date or not retention_period or retention_period == "NA":
         return None
@@ -269,6 +285,11 @@ def normalize_retention_period(period):
 
 class RawDataSample(Document):
     def on_submit(self):
+
+        # doc.date_of_analysis_completed = frappe.utils.now()
+        dt = now_datetime().replace(microsecond=0)
+        self.db_set('date_of_analysis_completed', dt)
+
         """Push final sample status & completion date to the linked Sample Registration."""
         if not self.sample_registration_no:
             return
@@ -277,14 +298,18 @@ class RawDataSample(Document):
         doc = frappe.get_doc("Sample Registration", self.sample_registration_no)
 
         # Update fields
-        doc.sample_status = self.pass_or_fail
-        doc.date_of_analysis_completed = self.date_of_analysis_completed
-        doc.remark = self.remark_if_any
+        doc.db_set("sample_status", self.pass_or_fail)
+        # doc.sample_status = self.pass_or_fail
+        doc.db_set("date_of_analysis_completed", self.date_of_analysis_completed)
+        # doc.date_of_analysis_completed = self.date_of_analysis_completed
+        doc.db_set("remark", self.remark_if_any)
+        # doc.remark = self.remark_if_any
 
         disposal_date=calculate_disposal_date(self.date_of_analysis_completed, doc.sample_retention_period)
 
 
-        doc.date_of_disposal=disposal_date
+        doc.db_set("date_of_disposal", disposal_date)
+        # doc.date_of_disposal=disposal_date
         # if(disposal_date):
         #     doc.date_of_disposal=disposal_date
         # else:
@@ -314,10 +339,11 @@ class RawDataSample(Document):
         )
         frappe.db.commit()
 
+
     @frappe.whitelist()
-    def preload_all_tables(self, samplePara, showFieldMap):
+    def preload_all_tables(self, samplePara):
         sampleParam=json.loads(samplePara)
-        showField_map=json.loads(showFieldMap)
+        # showField_map=json.loads(showFieldMap)
         
         customer_name = self.name_of_customer
         sample_type = self.type_of_sample
@@ -330,7 +356,7 @@ class RawDataSample(Document):
                 continue
             
             template = frappe.get_doc("Child Table Template", template_name)
-            allowed_parameters = showField_map.get(customer_name, {}).get(sample_type, [])
+            # allowed_parameters = showField_map.get(customer_name, {}).get(sample_type, [])
             foamingList=[];
 
             def is_replicate_valid(entry):
@@ -339,7 +365,7 @@ class RawDataSample(Document):
                 if not param_field:
                     return False
                 param_data = sampleParam.get(param_field)
-                if param_data and str(param_data).strip().upper() != "NA" and param_name in allowed_parameters:
+                if param_data and str(param_data).strip().upper() != "NA":
                     return True
             
             def is_row_valid(entry):
@@ -348,25 +374,25 @@ class RawDataSample(Document):
                     return True;
                 if(param_name == "Sequence I @ 24.0°C Result"):
                     return (
-                        param_name in allowed_parameters and 
+                        # param_name in allowed_parameters and 
                         "Sequence I @ 24.0°C Tendency" in foamingList and
                         "Sequence I @ 24.0°C Stability" in foamingList
 					)
                 elif(param_name == "Sequence II @ 93.5°C Result"):
                     return (
-                        param_name in allowed_parameters and 
+                        # param_name in allowed_parameters and 
                         "Sequence II @ 93.5°C Stability" in foamingList and
                         "Sequence II @ 93.5°C Tendency" in foamingList
 					)
                 elif(param_name == "Sequence III @ 24.0°C Result"):
                     return (
-                        param_name in allowed_parameters and 
+                        # param_name in allowed_parameters and 
                         "Sequence III @ 24.0°C Stability" in foamingList and
                         "Sequence III @ 24.0°C Tendency" in foamingList
 					)
                 elif(param_name == "Sequence IV @ 150 °C Result"):
                      return (
-                        param_name in allowed_parameters and 
+                        # param_name in allowed_parameters and 
                         "Sequence IV @ 150 °C Tendency" in foamingList and
                         "Sequence IV @ 150 °C Stability" in foamingList
 					)
@@ -375,13 +401,19 @@ class RawDataSample(Document):
                     return False
                 param_data = sampleParam.get(param_field)
                 if(param_name == "Sequence I @ 24.0°C Tendency" or param_name == "Sequence I @ 24.0°C Stability" or param_name == "Sequence II @ 93.5°C Tendency" or param_name == "Sequence II @ 93.5°C Stability" or param_name == "Sequence III @ 24.0°C Tendency" or param_name == "Sequence III @ 24.0°C Stability" or param_name == "Sequence IV @ 150 °C Tendency" or param_name == "Sequence IV @ 150 °C Stability"):
-                    if(param_data !=None and str(param_data).strip().upper() != "NA" and param_name in allowed_parameters):
+                    if(param_data !=None and str(param_data).strip().upper() != "NA"):
                         foamingList.append(param_name)
+                if (sample_type == "Process Water"):
+                    return (
+                        param_data is not None and
+                        str(param_data).strip().upper() != "NA" and
+                        param_name in processWater
+                    )
                 
                 return (
                     param_data is not None and
-                    str(param_data).strip().upper() != "NA" and
-                    param_name in allowed_parameters
+                    str(param_data).strip().upper() != "NA"
+                    # param_name in allowed_parameters
                 )
             
             # frappe.msgprint(foamingList);
@@ -441,8 +473,8 @@ class RawDataSample(Document):
         return result 
 	
     @frappe.whitelist()
-    def preload_all_tables_for_internal(self, showFieldMap):
-        showField_map=json.loads(showFieldMap)
+    def preload_all_tables_for_internal(self):
+        # showField_map=json.loads(showFieldMap)
 
         customer_name = self.name_of_customer
         sample_type = self.type_of_sample
@@ -455,16 +487,14 @@ class RawDataSample(Document):
                 continue
             
             template = frappe.get_doc("Child Table Template", template_name)
-            
-            if(sample_type == "Tanker Flushing"):
-                allowed_parameters= showField_map.get(customer_name, {}).get("Tanker Flushing", [])
-            else:
-                allowed_parameters = showField_map.get("Internal Client", {}).get("Other", [])
-            # foamingList=[];
 
             def is_row_valid(entry):
-                return entry.parameter_name in allowed_parameters
-            
+                if(sample_type == "Tanker Flushing"):
+                    return entry.parameter_name in tankerInMap
+                
+                return True;
+        
+
             # only_last_row = child_table_name in only_last_row_tables
             filtered_rows = []
 

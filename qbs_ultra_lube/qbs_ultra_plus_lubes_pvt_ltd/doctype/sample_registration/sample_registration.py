@@ -9,13 +9,17 @@ class SampleRegistration(Document):
 
     def autoname(self):
 
-        # Allow manual override for duplicate functionality
+    # Allow manual override (duplicate / clone use-case)
         if getattr(self, 'custom_generated_name', None):
             self.name = self.custom_generated_name
             return
 
+        import frappe
+        from frappe.utils import now_datetime
+
         customer = (self.name_of_customer or "").strip()
         company = (self.company or "").strip()
+        year = now_datetime().year
 
         # ======================================================
         # PREFIX MAP (COMPANY + CUSTOMER)
@@ -68,63 +72,58 @@ class SampleRegistration(Document):
         }
 
         # ======================================================
-        # DUAL-PREFIX LOGIC
+        # CASE 1: DUAL PREFIX → COMPANY/CUSTOMER/YEAR/0001
         # ======================================================
         if company in dual_prefix_companies and customer in dual_prefix_customers:
 
             company_prefix = prefix_map.get(company)
             customer_prefix = prefix_map.get(customer)
 
-            # Validate that both prefixes were found
             if not company_prefix:
                 frappe.throw(f"Missing prefix mapping for Company: {company}")
             if not customer_prefix:
                 frappe.throw(f"Missing prefix mapping for Customer: {customer}")
 
-            dual_prefix = f"{company_prefix}/{customer_prefix}"
+            visible_prefix = f"{company_prefix}/{customer_prefix}/{year}"
 
-            # Find last used running number
-            existing = frappe.db.sql("""
+            records = frappe.db.sql("""
                 SELECT name FROM `tabSample Registration`
                 WHERE name LIKE %s
-            """, (dual_prefix + "/%",), as_dict=True)
+            """, (visible_prefix + "/%",), as_dict=True)
 
             max_num = 0
-            for row in existing:
+            for row in records:
                 try:
-                    num = int(row.name.split("/")[-1])
-                    max_num = max(max_num, num)
+                    max_num = max(max_num, int(row.name.split("/")[-1]))
                 except:
                     pass
 
-            new_num = str(max_num + 1).zfill(4)
-            self.name = f"{dual_prefix}/{new_num}"
+            self.name = f"{visible_prefix}/{str(max_num + 1).zfill(4)}"
             return
 
         # ======================================================
-        # NORMAL AUTONAME (all other customers)
+        # CASE 2: NORMAL PREFIX → PREFIX/YEAR/0001
         # ======================================================
         prefix = prefix_map.get(customer)
 
         if not prefix:
             prefix = "".join([w[0].upper() for w in customer.split() if w])
 
-        # find last number
-        all_records = frappe.db.sql("""
+        visible_prefix = f"{prefix}/{year}"
+
+        records = frappe.db.sql("""
             SELECT name FROM `tabSample Registration`
             WHERE name LIKE %s
-        """, (prefix + "/%",))
+        """, (visible_prefix + "/%",))
 
         max_number = 0
-        for record in all_records:
+        for record in records:
             try:
-                num = int(record[0].split("/")[-1].split("-")[0])
-                max_number = max(max_number, num)
+                max_number = max(max_number, int(record[0].split("/")[-1]))
             except:
                 pass
 
-        new_number = str(max_number + 1).zfill(4)
-        self.name = f"{prefix}/{new_number}"
+        self.name = f"{visible_prefix}/{str(max_number + 1).zfill(4)}"
 
 
 # =================================================================
@@ -154,7 +153,15 @@ def create_duplicate(docname):
 
     new_doc = frappe.copy_doc(original_doc)
     new_doc.docstatus = 0
-    new_doc.sample_received_by = frappe.session.user_fullname
+    
+    # Get user's full name reliably
+    user_fullname = frappe.session.get("user_fullname")
+    if not user_fullname:
+        user_fullname = frappe.db.get_value("User", frappe.session.user, "full_name")
+    if not user_fullname:
+        user_fullname = frappe.session.user
+    
+    new_doc.sample_received_by = user_fullname
     new_doc.date_of_analysis_started = frappe.utils.now_datetime()
     new_doc.date_of_sample__receipt = frappe.utils.now_datetime()
     new_doc.is_reanalysis=1

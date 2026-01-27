@@ -1,0 +1,173 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"RMIPL3whBG\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Ultralube Home</span>\",\"col\":12}},{\"id\":\"4miPnIIMv8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Drive\",\"col\":3}},{\"id\":\"Gn4hBUPHl3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"Pn4MK_-ugw\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sample Reg Analytics\",\"col\":3}},{\"id\":\"bl_GVr8AoZ\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"bcaGsudreX\",\"type\":\"card\",\"data\":{\"card_name\":\"Sample\",\"col\":4}},{\"id\":\"i0ynOK1xgi\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}}]",
+ "creation": "2026-01-16 17:06:31.920779",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "external-link",
+ "idx": 0,
+ "indicator_color": "",
+ "is_hidden": 0,
+ "label": "Ultralube Home",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Raw Data Sample Report",
+   "link_count": 0,
+   "link_to": "Raw Data Sample Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "FF Sample Registration 30min",
+   "link_count": 0,
+   "link_to": "First Filled Sample Analysis Completion Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "FF Sample Analysis 40min",
+   "link_count": 0,
+   "link_to": "FF Sample Analysis (40mints)",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sample",
+   "link_count": 6,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Raw Data Sample",
+   "link_count": 0,
+   "link_to": "Raw Data Sample",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Master Data",
+   "link_count": 0,
+   "link_to": "Master List Of Equipments",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sample Registration",
+   "link_count": 0,
+   "link_to": "Sample Registration",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "GS Batch Comment",
+   "link_count": 0,
+   "link_to": "GS COA",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sample Name",
+   "link_count": 0,
+   "link_to": "Item",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Sample Summary",
+   "link_count": 0,
+   "link_to": "Sample Reg",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reports",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "FF 40 Mins",
+   "link_count": 0,
+   "link_to": "FF Sample Analysis (40mints)",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "FF 30 Mins",
+   "link_count": 0,
+   "link_to": "First Filled Sample Analysis Completion Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-01-23 15:51:56.830359",
+ "modified_by": "Administrator",
+ "module": "QBS Ultra Plus Lubes Pvt Ltd",
+ "name": "Ultralube Home",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 24.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Drive",
+   "type": "URL",
+   "url": "/drive"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Sample Reg Analytics",
+   "link_to": "Sample Registration Analytics",
+   "type": "Dashboard"
+  }
+ ],
+ "title": "Ultralube Home"
+}

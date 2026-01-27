@@ -5,6 +5,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "section_break_vzyx",
   "sample_name",
   "date_and_time_of_sample_receipt",
   "batch_sizepack_size",
@@ -43,6 +44,7 @@
   "date_of_mfg",
   "coa_date",
   "material_code",
+  "report_date",
   "column_break_sdim",
   "date_of_analysis_completed",
   "is_verified",
@@ -376,7 +378,6 @@
    "reqd": 1
   },
   {
-   "depends_on": "eval: !(\r\n    (doc.name_of_customer == \"Valvoline Cummins (I) Pvt. Ltd.  (coolant)\") ||\r\n    (doc.name_of_customer == \"Exxon Mobil\" && [\"Receipt \u2013 Additive\", \"Blending- Premix\"].includes(doc.type_of_sample)) ||\r\n    (doc.name_of_customer == \"G S Caltex\" && doc.type_of_sample == \"Receipt \u2013 Additive\") ||\r\n    (doc.name_of_customer == \"Shell India Marketing Pvt. Ltd.\" && doc.type_of_sample == \"Receipt \u2013 Additive\") ||\r\n    (doc.name_of_customer == \"BASF (Coolant)\")\r\n)",
    "fieldname": "colour_astm_d1500",
    "fieldtype": "Select",
    "label": "Color (ASTM D1500)",
@@ -384,7 +385,6 @@
    "options": "\nL0.5\nL1.0\nL1.5\nL2.0\nL2.5\nL3.0\nL3.5\nL4.0\nL4.5\nL5.0\nL5.5\nL6.0\nL6.5\nL7.0\nL7.5\nL8.0"
   },
   {
-   "depends_on": "eval: doc.type_of_sample!=\"Empty Tanker IN\"",
    "fieldname": "colour_visual",
    "fieldtype": "Data",
    "label": "Colour (Visual)",
@@ -499,7 +499,6 @@
    "options": "Raw Data Sample Table"
   },
   {
-   "depends_on": "eval: (doc.name_of_customer == \"Castrol (I) Pvt. Ltd.\" && [\"Bulk Filling Tanker OUT- Blending\", \"Storage Tank flushing\", \"First Filled sample\", \"Filling Line Lunch Break Sample\", \"Filling Line Tea Break Sample\", \"Filling Line End Sample\", \"Filling Line Break Sample\", \"Tanker Flushing\",\"Other\"].includes(doc.type_of_sample) ||\r\n    ([\"West Coast Lubricants & Asphalts Pvt. Ltd.\", \"Ultra Plus Lubes Pvt. Ltd.- Unit 1\", \"Ultra Plus Lubes Pvt. Ltd.- Unit 4\"].includes(doc.name_of_customer))\r\n)",
    "fieldname": "container_sr_no",
    "fieldtype": "Data",
    "label": "Container Sr. No.",
@@ -1164,7 +1163,6 @@
    "options": "Template Fields"
   },
   {
-   "depends_on": "eval: (\r\n    (doc.name_of_customer == \"Exxon Mobil\" && [\"Receipt - Base oil\", \"Blending\", \"Bulk Filling Tanker OUT- Blending\", \"First Filled sample\"].includes(doc.type_of_sample)) ||\r\n    (doc.name_of_customer == \"Castrol (I) Pvt. Ltd.\" && doc.type_of_sample == \"Receipt \u2013 Additive\") ||\r\n    (doc.type_of_sample ==\"Other\") ||\r\n    (doc.name_of_customer == \"Valvoline Cummins (I) Pvt. Ltd.  (coolant)\" && doc.type_of_sample == \"Receipt - MEG\") ||\r\n    (doc.name_of_customer == \"Raj Petro (Blending)\" && [\"Blending- Premix\", \"Blending\", \"Bulk Filling Tanker OUT- Blending\", \"First Filled sample\"].includes(doc.type_of_sample)) ||\r\n    ([\"West Coast Lubricants & Asphalts Pvt. Ltd.\", \"Ultra Plus Lubes Pvt. Ltd.- Unit 1\", \"Ultra Plus Lubes Pvt. Ltd.- Unit 4\"].includes(doc.name_of_customer))\r\n)\r\n&& !(\r\n    [\"Valvoline Cummins (I) Pvt. Ltd.  (Lube oil)\", \"G S Caltex\", \"Shell India Marketing Pvt. Ltd.\"].includes(doc.name_of_customer)\r\n)",
    "fieldname": "odour",
    "fieldtype": "Select",
    "label": "Odour",
@@ -1814,7 +1812,6 @@
    "label": "Appearance"
   },
   {
-   "depends_on": "eval: !(\r\n    [\"Valvoline Cummins (I) Pvt. Ltd.  (coolant)\", \"BASF (Coolant)\"].includes(doc.name_of_customer)\r\n)",
    "fieldname": "crackle",
    "fieldtype": "Select",
    "label": "Crackle Test",
@@ -2419,13 +2416,24 @@
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Product Name"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "report_date",
+   "fieldtype": "Date",
+   "hidden": 1,
+   "label": "Report Date"
+  },
+  {
+   "fieldname": "section_break_vzyx",
+   "fieldtype": "Section Break"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-12-19 09:40:10.650752",
+ "modified": "2026-01-02 09:41:23.693886",
  "modified_by": "Administrator",
  "module": "QBS Ultra Plus Lubes Pvt Ltd",
  "name": "Raw Data Sample",

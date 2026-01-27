@@ -1,4 +1,5 @@
 import frappe
+from frappe.utils import now_datetime
 
 # ======================================================
 # Prefix Mapping (Company + Customer)
@@ -65,79 +66,63 @@ def generate_sample_code(customer_name, company_name):
     if not company_prefix:
         frappe.throw(f"Missing prefix mapping for Company: {company_name}")
 
+    year = now_datetime().year
+
     # ======================================================
-    # CASE 1: Dual-prefix format
+    # CASE 1: Dual-prefix → COMPANY/CUSTOMER/YEAR/0001
     # ======================================================
     if customer_name in DUAL_PREFIX_CUSTOMERS and company_name in DUAL_PREFIX_COMPANIES:
 
-        dual_prefix = f"{company_prefix}/{customer_prefix}"
+        visible_prefix = f"{company_prefix}/{customer_prefix}/{year}"
+        counter_name = f"sample_counter_{company_prefix}_{customer_prefix}_{year}"
 
-        series_key = f"{company_prefix}_{customer_prefix}"
-        counter_name = f"sample_counter_{series_key}"
-
-        # Safe SQL lookup (no ORDER BY)
         res = frappe.db.sql(
             "SELECT current FROM `tabSeries` WHERE name=%s LIMIT 1",
             (counter_name,)
         )
-        last_number = res[0][0] if res else None
 
-        if last_number:
-            next_number = int(last_number) + 1
+        current = res[0][0] if res else 0
+        next_number = current + 1
+
+        if frappe.db.exists("Series", counter_name):
+            frappe.db.sql(
+                "UPDATE `tabSeries` SET current=%s WHERE name=%s",
+                (next_number, counter_name)
+            )
         else:
-            existing = frappe.db.sql("""
-                SELECT name FROM `tabSample Registration`
-                WHERE name LIKE %s
-            """, (dual_prefix + "/%",), as_dict=True)
+            frappe.db.sql(
+                "INSERT INTO `tabSeries` (name, current) VALUES (%s, %s)",
+                (counter_name, next_number)
+            )
 
-            max_num = 0
-            for row in existing:
-                try:
-                    num = int(row.name.split("/")[-1])
-                    max_num = max(max_num, num)
-                except:
-                    pass
+        return f"{visible_prefix}/{next_number:04d}"
 
-            next_number = max_num + 1
+    # ======================================================
+    # CASE 2: Normal → PREFIX/YEAR/0001
+    # ======================================================
+    visible_prefix = f"{customer_prefix}/{year}"
+    counter_name = f"sample_counter_{customer_prefix}_{year}"
 
-            if frappe.db.exists("Series", counter_name):
-                frappe.db.sql("UPDATE `tabSeries` SET current=%s WHERE name=%s",
-                              (max_num, counter_name))
-            else:
-                frappe.db.sql(
-                    "INSERT INTO `tabSeries` (name, current) VALUES (%s, %s)",
-                    (counter_name, max_num)
-                )
+    res = frappe.db.sql(
+        "SELECT current FROM `tabSeries` WHERE name=%s LIMIT 1",
+        (counter_name,)
+    )
 
+    current = res[0][0] if res else 0
+    next_number = current + 1
+
+    if frappe.db.exists("Series", counter_name):
         frappe.db.sql(
             "UPDATE `tabSeries` SET current=%s WHERE name=%s",
             (next_number, counter_name)
         )
+    else:
+        frappe.db.sql(
+            "INSERT INTO `tabSeries` (name, current) VALUES (%s, %s)",
+            (counter_name, next_number)
+        )
 
-        return f"{dual_prefix}/{next_number:04d}"
-
-    # ======================================================
-    # CASE 2: Normal Prefix (all others)
-    # ======================================================
-    prefix = customer_prefix
-
-    records = frappe.db.sql("""
-        SELECT name FROM `tabSample Registration`
-        WHERE name LIKE %s
-    """, (prefix + "/%",))
-
-    max_num = 0
-    for row in records:
-        try:
-            num = int(row[0].split('/')[-1])
-            max_num = max(max_num, num)
-        except:
-            pass
-
-    next_number = max_num + 1
-
-    return f"{prefix}/{next_number:04d}"
-
+    return f"{visible_prefix}/{next_number:04d}"
 
 # ======================================================
 # Hook: Before Insert
