@@ -17,6 +17,7 @@
   "date_of_analysis_started",
   "remark",
   "date_of_disposal",
+  "time_required",
   "column_break_npzl",
   "name_of_customer",
   "batch_no",
@@ -247,13 +248,20 @@
    "fieldtype": "Data",
    "hidden": 1,
    "label": "PREVIOUS MATERIAL (IN FT)"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "time_required",
+   "fieldtype": "Data",
+   "label": "Time Required",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-12-29 21:02:50.524156",
+ "modified": "2026-02-16 17:20:54.996930",
  "modified_by": "Administrator",
  "module": "QBS Ultra Plus Lubes Pvt Ltd",
  "name": "Sample Registration",

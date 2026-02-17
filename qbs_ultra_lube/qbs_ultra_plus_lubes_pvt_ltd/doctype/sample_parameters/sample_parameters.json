@@ -85,6 +85,10 @@
   "density_295c_astm_d1298_gml",
   "density_1560c_astm_d1298_gml",
   "nas_1638",
+  "infrared_spectrum_am_s_1440",
+  "specific_gravity_25c",
+  "specific_gravity_15c",
+  "specific_gravity_20c",
   "column_break_xjhu",
   "item_name",
   "appearance_visual",
@@ -161,7 +165,12 @@
   "nitrogen_mass_astm_d5185",
   "density__15c_astm_d1298_gml",
   "density_200c_astm_d1298_gml",
-  "density_1550c_astm_d1298_gml"
+  "density_1550c_astm_d1298_gml",
+  "appearance_am_s_1738",
+  "odor_am_s_1695",
+  "tbn_astm_d4739",
+  "zirconium",
+  "specific_gravity_156c"
  ],
  "fields": [
   {
@@ -519,9 +528,10 @@
    "label": "Nitrogen, % wt (AMS 1208)"
   },
   {
+   "description": "% mass",
    "fieldname": "sulphated_ash__wt_astm_d874",
    "fieldtype": "Small Text",
-   "label": "Sulphated Ash, %mass (ASTM D874)"
+   "label": "Sulphated Ash (ASTM D874)"
   },
   {
    "fieldname": "brookfield",
@@ -967,12 +977,59 @@
    "fieldtype": "Data",
    "label": "Customer",
    "options": "Customer"
+  },
+  {
+   "fieldname": "infrared_spectrum_am_s_1440",
+   "fieldtype": "Small Text",
+   "label": "Infrared Spectrum (AM-S 1440)"
+  },
+  {
+   "fieldname": "specific_gravity_25c",
+   "fieldtype": "Small Text",
+   "label": "Specific Gravity@25C (ASTM D4052)"
+  },
+  {
+   "fieldname": "specific_gravity_15c",
+   "fieldtype": "Small Text",
+   "label": "Specific Gravity@15C (ASTM D4052)"
+  },
+  {
+   "fieldname": "specific_gravity_20c",
+   "fieldtype": "Small Text",
+   "label": "Specific Gravity@20C (ASTM D4052)"
+  },
+  {
+   "fieldname": "appearance_am_s_1738",
+   "fieldtype": "Small Text",
+   "label": "Appearance (AM-S 1738)"
+  },
+  {
+   "fieldname": "odor_am_s_1695",
+   "fieldtype": "Small Text",
+   "label": "Odor (AM-S 1695)"
+  },
+  {
+   "description": "% mass",
+   "fieldname": "tbn_astm_d4739",
+   "fieldtype": "Small Text",
+   "label": "TBN (ASTM D4739)"
+  },
+  {
+   "description": "mg of koH/g",
+   "fieldname": "zirconium",
+   "fieldtype": "Small Text",
+   "label": "Zirconium (ASTM D4927/ASTM D4951)"
+  },
+  {
+   "fieldname": "specific_gravity_156c",
+   "fieldtype": "Small Text",
+   "label": "Specific Gravity@15.6C (ASTM D4052)"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-01-19 11:29:40.533789",
+ "modified": "2026-02-09 09:48:20.063969",
  "modified_by": "Administrator",
  "module": "QBS Ultra Plus Lubes Pvt Ltd",
  "name": "Sample Parameters",

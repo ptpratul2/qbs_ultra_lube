@@ -1,0 +1,16 @@
+/* Give each legend item fixed width so text can wrap */
+.frappe-chart .chart-legend g {
+    width: 140px !important;   /* controls when wrapping happens */
+}
+
+/* Allow label to break into multiple lines */
+.frappe-chart .legend-dataset-label {
+    font-size: 13px;
+    word-break: break-word;
+}
+
+/* Move value clearly below label */
+.frappe-chart .legend-dataset-value {
+    transform: translateY(12px);
+    font-size: 11px;
+}

@@ -351,6 +351,8 @@
   "other_1_section",
   "other_test_1",
   "other_2_section",
+  "additional_parameters",
+  "extra_para_html",
   "other_test_2",
   "amended_from"
  ],
@@ -1167,7 +1169,7 @@
    "fieldtype": "Select",
    "label": "Odour",
    "length": 25,
-   "options": "\nPass\nFail\nObjectionable\nNot Objectionable\nSatisfactory\nUnsatisfactory\nNo Characteristic Odour"
+   "options": "\nPass\nFail\nObjectionable\nNot Objectionable\nSatisfactory\nUnsatisfactory\nNo Characteristic Odour\nOdourless"
   },
   {
    "fieldname": "aniline_point_carbon_content_distillation_tab",
@@ -1819,7 +1821,7 @@
    "options": "\nPositive\nNegative"
   },
   {
-   "description": "%",
+   "description": "% mass",
    "fieldname": "sulphated_ash__wt_astm_d874",
    "fieldtype": "Data",
    "label": "Sulphated Ash"
@@ -2427,13 +2429,24 @@
   {
    "fieldname": "section_break_vzyx",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "additional_parameters",
+   "fieldtype": "Table",
+   "label": "Additional Parameters",
+   "options": "Other Parameters Table"
+  },
+  {
+   "fieldname": "extra_para_html",
+   "fieldtype": "HTML",
+   "label": "Extra Para HTML"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-01-02 09:41:23.693886",
+ "modified": "2026-02-09 09:47:13.323240",
  "modified_by": "Administrator",
  "module": "QBS Ultra Plus Lubes Pvt Ltd",
  "name": "Raw Data Sample",
