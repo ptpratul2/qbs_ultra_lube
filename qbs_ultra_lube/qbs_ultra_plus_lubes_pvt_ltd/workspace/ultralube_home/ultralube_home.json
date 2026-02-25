@@ -16,9 +16,9 @@
   {
    "hidden": 0,
    "is_query_report": 1,
-   "label": "Raw Data Sample Report",
+   "label": "Pivot Table Raw Data",
    "link_count": 0,
-   "link_to": "Raw Data Sample Report",
+   "link_to": "Pivot Table Raw Data",
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
@@ -142,7 +142,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-02-13 10:20:18.968640",
+ "modified": "2026-02-25 10:27:48.563819",
  "modified_by": "Administrator",
  "module": "QBS Ultra Plus Lubes Pvt Ltd",
  "name": "Ultralube Home",

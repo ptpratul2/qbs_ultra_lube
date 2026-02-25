@@ -2,6 +2,7 @@ import frappe
 from frappe.model.document import Document
 from frappe.model.mapper import get_mapped_doc
 from frappe.utils import now_datetime
+from frappe.utils import get_datetime, time_diff_in_seconds
 
 
 
@@ -124,6 +125,17 @@ class SampleRegistration(Document):
                 pass
 
         self.name = f"{visible_prefix}/{str(max_number + 1).zfill(4)}"
+    def before_submit(self):
+        if self.date_of_analysis_started and self.date_of_analysis_completed: 
+            start = get_datetime(self.date_of_analysis_started) 
+            end = get_datetime(self.date_of_analysis_completed) 
+
+            diff_seconds = time_diff_in_seconds(end, start)
+            # Convert to minutes (integer, no seconds)
+            diff_minutes = diff_seconds // 60
+
+            # Assign directly to Int field 
+            self.time_required_in_min= diff_minutes
 
 
 # =================================================================
@@ -171,3 +183,19 @@ def create_duplicate(docname):
 
     return new_doc.as_dict()
 
+
+@frappe.whitelist()
+def calculate_time_required(docname, completed_date):
+	doc = frappe.get_doc("Sample Registration", docname)
+	if doc.date_of_analysis_started: 
+		start = get_datetime(doc.date_of_analysis_started) 
+		end = get_datetime(completed_date) 
+		
+		diff_seconds = time_diff_in_seconds(end, start)
+		# Convert to minutes (integer, no seconds)
+		diff_minutes = diff_seconds // 60
+	
+	    # # Assign directly to Int field 
+		# doc.duration_in_min = diff_minutes
+
+		return diff_minutes

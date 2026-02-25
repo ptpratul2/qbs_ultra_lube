@@ -4,6 +4,8 @@ from frappe.utils import now, now_datetime;
 import json
 import re
 from frappe.utils import getdate, add_months
+# Import the function directly if in same app/module 
+from qbs_ultra_lube.qbs_ultra_plus_lubes_pvt_ltd.doctype.sample_registration.sample_registration import calculate_time_required
 
 TEMPLATE_FIELD_MAP = {
     "iso_template_name": "iso_and_nas",
@@ -304,6 +306,9 @@ class RawDataSample(Document):
         # doc.date_of_analysis_completed = self.date_of_analysis_completed
         doc.db_set("remark", self.remark_if_any)
         # doc.remark = self.remark_if_any
+
+        time_required = calculate_time_required(doc.name, self.date_of_analysis_completed)
+        doc.db_set("time_required_in_min", time_required)
 
         disposal_date=calculate_disposal_date(self.date_of_analysis_completed, doc.sample_retention_period)
 
